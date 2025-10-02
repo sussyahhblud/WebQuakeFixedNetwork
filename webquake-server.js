@@ -38,8 +38,7 @@ function getContentType(filePath) {
 async function handleDownloadQuake(req, res) {
     // Primary and fallback URLs for Quake data
     const zipUrls = [
-        'https://dl.dropboxusercontent.com/scl/fi/hyxcaqpfwhnkz1whvrn0y/id1.zip?rlkey=ni002yllmovegdfp3tmqsv6eh&st=3kylmm6z&dl=0',
-        'https://archive.org/download/quake-shareware/quake106.zip/id1%2F'
+        'https://dl.dropboxusercontent.com/scl/fi/qq3i5r2am7d8c9hwdxd09/id1.zip?rlkey=0uh9hy2fignyk114lc8d6lbta&st=xzgizi6l&dl=0'
     ];
     const id1Dir = path.join(__dirname, 'Client', 'id1');
     const tempDir = os.tmpdir();

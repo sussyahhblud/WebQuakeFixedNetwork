@@ -9,40 +9,29 @@ WebQuake is an HTML5 WebGL port of the classic Quake game by id Software. This p
 - **HTTP Server**: Custom Node.js server (`webquake-server.js`) serves frontend on port 5000
 - **Game Server**: Dedicated Quake server runs on port 26000 for multiplayer
 
-## Current State
-✅ **Successfully Imported and Configured**
+## Current State (October 2025 - Fresh Import)
+✅ **Successfully Imported and Configured for Replit**
 - Node.js environment set up with required dependencies (adm-zip, websocket)
 - HTTP server configured to serve WebQuake client on port 5000 with proper host binding (0.0.0.0)
 - Proper MIME types and cache control headers configured for Replit environment
 - CORS enabled and caching disabled for development compatibility
-- Game server configured to run on port 26000 (separate from frontend)
+- Workflow configured to run HTTP server: "WebQuake Server" on port 5000
 - Dependencies installed for both main project and server components
-- Deployment configured for production (autoscale)
-- Canvas display issue fixed - launcher interface now properly visible
-- Download functionality tested and working - Quake data successfully downloaded
-- **Start button fully functional** - Loads Quake using game files from id1 folder
-- **WebGL shaders completed** - Added missing Sprite, Turbulent, and Warp shaders with correct precision
-- **Game engine working** - Quake initializes successfully with all pak files loaded
+- Deployment configured for production (autoscale deployment)
+- WebQuake launcher interface loads successfully
 
-✅ **Professional Launcher Interface Complete**
-- Complete redesign with launcher-style interface matching user specifications
+✅ **Launcher Interface**
 - Left sidebar with collapsible sections: GAMES, LAUNCH OPTIONS, START
 - Dark theme styling with professional aesthetic
-- LAUNCH OPTIONS limited to fullscreen toggle only (no demos, open folder, or zip sections)
-- Footer with correct links: Instructions | GitHub | XashXT
-- GitHub link properly configured: https://github.com/sussyahhblud/WebQuake
-- **Authentic Quake logo** - Replaced circle with official Quake logo image
-- Cross-browser compatible collapsible sections
-- Integrated download overlay for missing game data
-- Fullscreen functionality for enhanced gaming experience
+- Quake logo displayed in center
+- Footer with links: Instructions | GitHub | Half-Life
+- Fullscreen toggle option available
+- Integrated download overlay for game data
 
-✅ **Multi-Game Support Added**
-- **Dual game launcher** - Added Half-Life alongside Quake in games dropdown
-- **Dynamic UI switching** - Text changes from "Download Quake Data" to "Download Half-Life Data" when Half-Life is selected
-- **Game data files** messaging updates from "required to play Quake" to "required to play Half-Life"
-- **Backend Half-Life support** - Server handles Half-Life downloads from webXash GitHub URL
-- **Separate data directories** - Quake uses /id1/, Half-Life uses /valve/
-- **Dynamic endpoint routing** - Frontend calls /api/download-quake or /api/download-halflife based on selection
+⚠️ **Known Limitations**
+- Download URLs for Quake data files may need updating (original URLs return 404)
+- Updated to use alternative sources: GitHub, quaddicted.com, archive.org mirrors
+- Users can manually add Quake data files to `Client/id1/` directory if download fails
 
 ## Setup Details
 - Frontend accessible at: `http://localhost:5000`

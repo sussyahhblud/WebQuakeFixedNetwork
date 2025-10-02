@@ -310,15 +310,8 @@ Host.Init = function()
         CL.Init();
         IN.Init();
         
-        var defaultBinds = '';
-        defaultBinds += 'bind w +forward\n';
-        defaultBinds += 'bind s +back\n';
-        defaultBinds += 'bind a +moveleft\n';
-        defaultBinds += 'bind d +moveright\n';
-        defaultBinds += '+mlook\n';
-        defaultBinds += 'exec quake.rc\n';
-        
-        Cmd.text = defaultBinds + Cmd.text;
+        Host.SetDefaultControls();
+        Cmd.ExecuteString('exec quake.rc');
         
         Host.initialized = true;
         Sys.Print('========Quake Initialized=========\n');
@@ -511,6 +504,16 @@ Host.Ping_f = function()
         }
 };
 
+Host.SetDefaultControls = function()
+{
+        Cmd.ExecuteString('bind w +forward');
+        Cmd.ExecuteString('bind s +back');
+        Cmd.ExecuteString('bind a +moveleft');
+        Cmd.ExecuteString('bind d +moveright');
+        Cmd.ExecuteString('bind TAB togglemenu');
+        Cmd.ExecuteString('+mlook');
+};
+
 Host.Map_f = function()
 {
         if (Cmd.argv.length <= 1)
@@ -529,6 +532,7 @@ Host.Map_f = function()
         SV.SpawnServer(Cmd.argv[1]);
         if (SV.server.active !== true)
                 return;
+        Host.SetDefaultControls();
         CL.cls.spawnparms = '';
         var i;
         for (i = 2; i < Cmd.argv.length; ++i)
@@ -550,12 +554,16 @@ Host.Changelevel_f = function()
         }
         SV.SaveSpawnparms();
         SV.SpawnServer(Cmd.argv[1]);
+        Host.SetDefaultControls();
 };
 
 Host.Restart_f = function()
 {
         if ((CL.cls.demoplayback !== true) && (SV.server.active === true) && (Cmd.client !== true))
+        {
                 SV.SpawnServer(PR.GetString(PR.globals_int[PR.globalvars.mapname]));
+                Host.SetDefaultControls();
+        }
 };
 
 Host.Reconnect_f = function()
@@ -750,6 +758,7 @@ Host.Loadgame_f = function()
         }
         SV.server.paused = true;
         SV.server.loadgame = true;
+        Host.SetDefaultControls();
 
         for (i = 0; i <= 63; ++i)
                 SV.server.lightstyles[i] = f[21 + i];
