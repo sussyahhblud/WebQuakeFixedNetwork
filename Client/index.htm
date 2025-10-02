@@ -278,9 +278,32 @@ body {
     background-color: maroon;
     white-space: pre;
 }
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #966f33;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', Verdana, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    z-index: 2000;
+    display: none;
+}
+
+.back-button:hover {
+    background: #b8834d;
+}
 </style>
 </head>
 <body>
+<button class="back-button" id="backButton" onclick="goBackToLauncher()">BACK</button>
 <div class="launcher-container">
     <div class="sidebar">
         <div class="section">
@@ -391,6 +414,9 @@ function toggleFullscreen() {
 function startGame() {
     // Always show download overlay, regardless of whether data exists
     document.getElementById('downloadOverlay').classList.remove('hidden');
+    
+    // Show the back button
+    document.getElementById('backButton').style.display = 'block';
 }
 
 function launchQuake() {
@@ -415,6 +441,11 @@ function launchQuake() {
         }
     }
     
+    // Add click-to-fullscreen functionality when fullscreen toggle is enabled
+    if (fullscreenEnabled) {
+        document.body.addEventListener('click', clickToFullscreen);
+    }
+    
     gameStarted = true;
     
     // Initialize Quake engine directly without page reload
@@ -431,6 +462,62 @@ function launchQuake() {
                     Sys.InitFullGame();
                 }
             }, 500);
+        }
+    }
+}
+
+function clickToFullscreen() {
+    // Only work if fullscreen toggle is enabled
+    if (!fullscreenEnabled) {
+        return;
+    }
+    
+    // Check if not in fullscreen, then request it
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        }
+    }
+}
+
+function goBackToLauncher() {
+    console.log('Going back to launcher');
+    
+    // Change website title back to WebQuake Launcher
+    document.title = 'WebQuake Launcher';
+    
+    // Show the launcher interface
+    document.querySelector('.launcher-container').style.display = 'flex';
+    document.querySelector('.footer').style.display = 'block';
+    
+    // Hide the back button and download overlay
+    document.getElementById('backButton').style.display = 'none';
+    document.getElementById('downloadOverlay').classList.add('hidden');
+    
+    // Hide the game canvas
+    const canvas = document.getElementById('mainwindow');
+    if (canvas) {
+        canvas.style.display = 'none';
+    }
+    
+    // Remove click-to-fullscreen event listener
+    document.body.removeEventListener('click', clickToFullscreen);
+    
+    // Reset game state flag to allow fullscreen on next launch
+    gameStarted = false;
+    
+    // Exit fullscreen if active
+    if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
         }
     }
 }
@@ -469,6 +556,7 @@ function checkGameLoaded() {
 // Modified download success handler
 window.onDownloadComplete = function() {
     document.getElementById('downloadOverlay').classList.add('hidden');
+    document.getElementById('backButton').style.display = 'none';
     launchQuake();
 };
 </script>

@@ -275,7 +275,7 @@ S.StartSound = function(entnum, entchannel, sfx, origin, vol, attenuation)
 		if (volume > 1.0)
 			volume = 1.0;
 		target_chan.audio.volume = volume * S.volume.value;
-		target_chan.audio.play();
+		var playPromise = target_chan.audio.play(); if (playPromise !== undefined) { playPromise.catch(function() {}); }
 	}
 };
 
@@ -502,7 +502,7 @@ S.UpdateAmbientSounds = function()
 			sc = ch.sfx.cache;
 			if (ch.audio.paused === true)
 			{
-				ch.audio.play();
+				var playPromise = ch.audio.play(); if (playPromise !== undefined) { playPromise.catch(function() {}); }
 				ch.end = Host.realtime + sc.length;
 				continue;
 			}
@@ -643,7 +643,7 @@ S.UpdateStaticSounds = function()
 			sc = ch.sfx.cache;
 			if (ch.audio.paused === true)
 			{
-				ch.audio.play();
+				var playPromise = ch.audio.play(); if (playPromise !== undefined) { playPromise.catch(function() {}); }
 				ch.end = Host.realtime + sc.length;
 				continue;
 			}
