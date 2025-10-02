@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="user-scalable=no">
-<title>WebQuake Launcher</title>
+<title>Quake Launcher</title>
 <link rel="icon" type="image/png" href="quake-logo.png">
 <link rel="shortcut icon" type="image/png" href="quake-logo.png">
 <style type="text/css">
@@ -38,7 +38,8 @@ canvas {
 }
 
 body {
-    background: linear-gradient(145deg, #1a1a1a 0%, #0d1117 50%, #1a1a1a 100%);
+    background: url('background.png') center center / cover no-repeat;
+    background-color: #000;
     color: #e1e1e1;
     font-family: 'Trebuchet MS', Verdana, sans-serif;
     height: 100vh;
@@ -487,8 +488,8 @@ function clickToFullscreen() {
 function goBackToLauncher() {
     console.log('Going back to launcher');
     
-    // Change website title back to WebQuake Launcher
-    document.title = 'WebQuake Launcher';
+    // Change website title back to Quake Launcher
+    document.title = 'Quake Launcher';
     
     // Show the launcher interface
     document.querySelector('.launcher-container').style.display = 'flex';
