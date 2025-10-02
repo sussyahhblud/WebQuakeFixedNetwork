@@ -38,7 +38,6 @@ canvas {
 }
 
 body {
-    background: url('background.png') center center / cover no-repeat;
     background-color: #000;
     color: #e1e1e1;
     font-family: 'Trebuchet MS', Verdana, sans-serif;
@@ -301,6 +300,29 @@ body {
 .back-button:hover {
     background: #b8834d;
 }
+
+.background-select {
+    width: calc(100% - 32px);
+    margin: 16px;
+    padding: 8px 12px;
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #e1e1e1;
+    font-size: 13px;
+    font-family: 'Trebuchet MS', Verdana, sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.background-select option {
+    background: #21262d;
+    color: #e1e1e1;
+}
+
+.background-select option.quake-font {
+    font-family: 'Quake-Title', 'Trebuchet MS', Verdana, sans-serif;
+}
 </style>
 </head>
 <body>
@@ -327,6 +349,19 @@ body {
                     <div class="checkbox" id="fullscreen-checkbox" onclick="toggleFullscreen()"></div>
                     <span>Fullscreen</span>
                 </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <button class="section-header" onclick="toggleSection(event, 'background')">
+                <span>♦ SITE PREFERENCES</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="section-content" id="background-content">
+                <select class="background-select" id="background-select" onchange="changeBackground()">
+                    <option value="black">BLACK</option>
+                    <option value="quake" class="quake-font">QUAKE</option>
+                </select>
             </div>
         </div>
         
@@ -371,7 +406,7 @@ let gameStarted = false;
 // Initialize sections to be open by default
 document.addEventListener('DOMContentLoaded', function() {
     // Set initial heights for sections to be expanded by default
-    const sections = ['games', 'options', 'start'];
+    const sections = ['games', 'options', 'background', 'start'];
     sections.forEach(section => {
         const content = document.getElementById(section + '-content');
         const header = document.querySelector(`[onclick*="${section}"]`);
@@ -382,6 +417,9 @@ document.addEventListener('DOMContentLoaded', function() {
             content.style.maxHeight = content.scrollHeight + 'px';
         }
     });
+    
+    // Load saved background preference
+    loadBackgroundPreference();
     
     // Always start fresh - user must click download/start each time
 });
@@ -409,6 +447,41 @@ function toggleFullscreen() {
         checkbox.classList.add('checked');
     } else {
         checkbox.classList.remove('checked');
+    }
+}
+
+function changeBackground() {
+    const select = document.getElementById('background-select');
+    const value = select.value;
+    
+    if (value === 'quake') {
+        document.body.style.background = "url('background.png') center center / cover no-repeat";
+        document.body.style.backgroundColor = '#000';
+    } else {
+        document.body.style.background = 'none';
+        document.body.style.backgroundColor = '#000';
+    }
+    
+    // Save preference to localStorage
+    localStorage.setItem('backgroundPreference', value);
+}
+
+function loadBackgroundPreference() {
+    const saved = localStorage.getItem('backgroundPreference');
+    const select = document.getElementById('background-select');
+    
+    // Default to black if no saved preference
+    const preference = saved || 'black';
+    
+    select.value = preference;
+    
+    // Apply the background
+    if (preference === 'quake') {
+        document.body.style.background = "url('background.png') center center / cover no-repeat";
+        document.body.style.backgroundColor = '#000';
+    } else {
+        document.body.style.background = 'none';
+        document.body.style.backgroundColor = '#000';
     }
 }
 
